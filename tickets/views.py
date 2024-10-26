@@ -9,7 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework import generics,mixins,viewsets
-from rest_framework.authentication import BaseAuthentication,TokenAuthentication
+from rest_framework.authentication import BasicAuthentication,TokenAuthentication
+
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthorOrReadOnly
 
@@ -151,17 +152,19 @@ class mixins_pk(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.Destroy
     
 
 class generics_list(generics.ListCreateAPIView):
-    queryset=Guest.objects.all()
-    serializer_class=GuestSerializer
+
+    queryset = Guest.objects.all()
+    serializer_class = GuestSerializer
     authentication_classes = [TokenAuthentication]
 
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+
 
 class generics_pk(generics.RetrieveUpdateDestroyAPIView):
     queryset=Guest.objects.all()
     serializer_class=GuestSerializer
     authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 class viewsets_guest(viewsets.ModelViewSet):
     queryset=Guest.objects.all()
